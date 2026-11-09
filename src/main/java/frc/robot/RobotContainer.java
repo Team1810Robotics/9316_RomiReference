@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DriveTime;
 import frc.robot.commands.TurnTime;
 import frc.robot.commands.AutonomousTime;
+import frc.robot.subsystems.BlockProgramReceiver;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -31,14 +32,20 @@ import frc.robot.commands.AutonomousTime;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final Drivetrain m_drivetrain = new Drivetrain();
-  private final OnBoardIO m_onboardIO = new OnBoardIO(ChannelMode.INPUT, ChannelMode.INPUT);
+private final Drivetrain m_drivetrain = new Drivetrain();
 
+private final OnBoardIO m_onboardIO =
+    new OnBoardIO(ChannelMode.INPUT, ChannelMode.INPUT);
+
+private final BlockProgramReceiver m_blockReceiver =
+    new BlockProgramReceiver(m_drivetrain, m_onboardIO);
   // Assumes a gamepad plugged into channel 0
   private final Joystick m_controller = new Joystick(0);
 
   // Create SmartDashboard chooser for autonomous routines
   private final SendableChooser<Command> m_chooser = new SendableChooser<>();
+
+  private final SendableChooser<Float> m_Chooser2 = new SendableChooser<>();
 
   // NOTE: The I/O pin functionality of the 5 exposed I/O pins depends on the hardware "overlay"
   // that is specified when launching the wpilib-ws server on the Romi raspberry pi.
@@ -103,6 +110,8 @@ m_chooser.addOption(
         new DriveTime(-0.3, 1.0, m_drivetrain)
     ));
 
+//m_Chooser2.onChange();
+
 // Publish with an explicit dashboard name
 SmartDashboard.putData("Auto Selector", m_chooser);
   }
@@ -123,6 +132,6 @@ SmartDashboard.putData("Auto Selector", m_chooser);
    */
   public Command getArcadeDriveCommand() {
     return new ArcadeDrive(
-        m_drivetrain, () -> -m_controller.getRawAxis(1), () -> -m_controller.getRawAxis(2));
+        m_drivetrain, () -> -m_controller.getRawAxis(1), () -> -m_controller.getRawAxis(4 ));
   }
 }

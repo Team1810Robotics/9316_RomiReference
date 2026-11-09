@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Romi Blocks · Speed & Sensors</title>
+  <style>
+    :root { color-scheme:light; font-family:system-ui,-apple-system,'Segoe UI',sans-serif; background:#f3f6fb; color:#182234; }
+    * {box-sizing:border-box} body {margin:0}
+    header {background:#13243c;color:white;padding:16px 22px;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+    h1 {font-size:21px;margin:0 0 4px} header p {font-size:12px;opacity:.85;margin:0}
+    main {display:grid;grid-template-columns:minmax(440px,2fr) minmax(290px,1fr);gap:16px;padding:16px;max-width:1500px;margin:auto}
+    section {border:1px solid #d7e0ee;background:white;border-radius:12px;overflow:hidden}
+    .head {padding:13px 16px;border-bottom:1px solid #e5eaf1;display:flex;justify-content:space-between;gap:10px;align-items:center}
+    .head h2 {font-size:15px;margin:0}
+    #blocklyDiv {height:min(75vh,740px);min-height:470px;width:100%}
+    .right {display:flex;flex-direction:column;gap:16px}
+    .side {padding:16px;display:flex;flex-direction:column;gap:14px}
+    .status {display:inline-flex;gap:7px;align-items:center;font-size:13px;font-weight:650}
+    .dot {width:10px;height:10px;display:inline-block;border-radius:50%;background:#c34242}
+    .connected .dot {background:#1f9d64}
+    button {font:inherit;border:0;border-radius:8px;padding:11px 14px;cursor:pointer;font-weight:700}
+    button:disabled {cursor:not-allowed;opacity:.5}
+    button.primary {background:#1c7b52;color:white} button.stop {background:#a53636;color:white}
+    button.secondary {background:#e5ecf7;color:#203454}
+    .actions {display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .actions .example {grid-column:1/-1}
+    label {font-size:13px;font-weight:700;display:block;margin-bottom:6px}
+    .result {background:#f3f6fa;padding:12px;min-height:54px;border-radius:8px;line-height:1.65;font-size:14px;white-space:pre-line}
+    .hint {font-size:12px;line-height:1.55;color:#52617a}
+    .error {color:#9a2323;font-weight:600}
+    .sensor-grid {display:grid;grid-template-columns:1fr 1fr;gap:9px}
+    .sensor {background:#f3f6fa;border-radius:8px;padding:9px 11px}
+    .sensor small {display:block;color:#52617a;font-size:12px}
+    .sensor strong {font-size:19px;font-variant-numeric:tabular-nums}
+    .buttons {display:flex;gap:7px;flex-wrap:wrap}
+    .button-indicator {font-weight:600;border:1px solid #bfcbd9;border-radius:7px;padding:7px 9px;font-size:12px}
+    .button-indicator.pressed {background:#d8f3e8;border-color:#27a378;color:#116243}
+    footer {padding:0 16px 20px;max-width:1500px;margin:auto;font-size:12px;color:#617086}
+    @media(max-width:850px){main{grid-template-columns:1fr}#blocklyDiv{height:55vh;min-height:400px}}
+  </style>
+  <script defer src="/vendor/blockly.min.js"></script>
+  <script defer src="/editor.js"></script>
+</head>
+<body>
+  <header>
+    <div><h1>Romi Blocks</h1><p>Build a program, choose a speed, then watch the robot and its sensors.</p></div>
+    <div id="connection" class="status"><span class="dot"></span><span id="connectionText">Checking simulation…</span></div>
+  </header>
+  <main>
+    <section>
+      <div class="head"><h2>1. Build your instructions</h2><span class="hint">Each block has its own speed</span></div>
+      <div id="blocklyDiv"></div>
+    </section>
+    <div class="right">
+      <section>
+        <div class="head"><h2>2. Run the program</h2></div>
+        <div class="side">
+          <div class="actions">
+            <button class="primary" id="run" disabled>Run blocks</button>
+            <button class="stop" id="stop" disabled>STOP robot</button>
+            <button class="secondary example" id="example">Load example</button>
+          </div>
+          <div><label>Instructions</label><div id="preview" class="result">Add a block to begin.</div></div>
+          <div><label>Robot status</label><div id="status" class="result">Waiting for WPILib simulation…</div></div>
+        </div>
+      </section>
+      <section>
+        <div class="head"><h2>3. Watch the Romi sensors</h2><span id="sensorState" class="hint">Waiting for data</span></div>
+        <div class="side">
+          <div class="sensor-grid">
+            <div class="sensor"><small>Turn angle (gyro Z)</small><strong id="gyro">—</strong></div>
+            <div class="sensor"><small>Left wheel distance</small><strong id="leftWheel">—</strong></div>
+            <div class="sensor"><small>Right wheel distance</small><strong id="rightWheel">—</strong></div>
+          </div>
+          <div><label>Onboard pushbuttons</label>
+            <div class="buttons">
+              <span class="button-indicator" id="buttonA">A: —</span>
+              <span class="button-indicator" id="buttonB">B: —</span>
+              <span class="button-indicator" id="buttonC">C: —</span>
+            </div>
+          </div>
+          <div class="hint">Sensor readings update about twice a second in this page. Wheel distance is relative to the last encoder reset. Buttons are for observation only; they don't change the program yet.</div>
+        </div>
+      </section>
+      <div class="hint">Limits: 1–8 blocks, 0.1–2.5 sec each, 8 sec total. Run only in enabled Teleoperated mode on a clear floor. Disable in the Simulation GUI for a primary stop.</div>
+    </div>
+  </main>
+  <footer>Runs locally on this laptop. The Romi is controlled by your Java robot code over NetworkTables and the WPILib Romi WebSocket connection.</footer>
+</body>
+</html>
