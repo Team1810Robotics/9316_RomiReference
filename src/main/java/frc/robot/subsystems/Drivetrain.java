@@ -52,6 +52,10 @@ public class Drivetrain extends SubsystemBase {
     resetEncoders();
   }
 
+  public void SetMaxSpeed(double maxOutput){
+    m_diffDrive.setMaxOutput(maxOutput); //TODO: this method actually clamps the speed based on maxOutput
+  }
+
   public void arcadeDrive(double xaxisSpeed, double zaxisRotate) {
     m_diffDrive.arcadeDrive(xaxisSpeed, zaxisRotate);
   }

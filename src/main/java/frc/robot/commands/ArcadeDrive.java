@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.Drivetrain;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import java.util.function.Supplier;
 
@@ -38,6 +39,11 @@ public class ArcadeDrive extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+  double percent = SmartDashboard.getNumber("Speed Value", 50);
+
+    m_drivetrain.SetMaxSpeed(percent); //TODO: percent looks at sendable chooser and clamps speed based on it
+                                        // works like a percent so 50 is clamp at half max speed
+
     m_drivetrain.arcadeDrive(m_xaxisSpeedSupplier.get(), m_zaxisRotateSupplier.get());
   }
 
