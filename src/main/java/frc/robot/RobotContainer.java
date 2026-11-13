@@ -34,6 +34,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 private final Drivetrain m_drivetrain = new Drivetrain();
 
+
 private final OnBoardIO m_onboardIO =
     new OnBoardIO(ChannelMode.INPUT, ChannelMode.INPUT);
 
@@ -62,6 +63,10 @@ private final BlockProgramReceiver m_blockReceiver =
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
+    
+  SmartDashboard.putNumber("Speed Value", 50.0); //TODO: adds widjet on elastic for showing speed
+     //make sure elascic is connected, widjet will be under SmartDashboard tab, listed as "Speed Value"
   }
 
   /**
